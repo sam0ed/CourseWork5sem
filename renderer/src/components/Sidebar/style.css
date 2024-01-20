@@ -1,0 +1,45 @@
+.sidebar {
+  align-items: flex-start;
+  flex-direction: column;
+  height: 1024px;
+  justify-content: space-between;
+  position: relative;
+}
+
+.sidebar .menu {
+  align-items: flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
+  position: relative;
+  width: 100%;
+}
+
+.sidebar .class {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  width: unset !important;
+}
+
+.sidebar .bottom {
+  align-self: stretch !important;
+  flex: 0 0 auto !important;
+  width: 100% !important;
+}
+
+.sidebar .icon-instance-node {
+  height: 38px !important;
+  position: relative !important;
+  width: 38px !important;
+}
+
+.sidebar.collapsed {
+  display: inline-flex;
+}
+
+.sidebar.default {
+  display: flex;
+  width: 345px;
+}

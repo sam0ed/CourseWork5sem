@@ -10,9 +10,8 @@ import { Caretup3 } from "../../icons/Caretup3";
 import "./style.css";
 
 interface Props {
-  text: string;
-  showButtonText: boolean;
-  showCaretup: boolean;
+  text: string | undefined;
+  showButtonText: boolean | undefined;
   type: "hover" | "default";
   className: any;
   icon: JSX.Element;
@@ -21,7 +20,6 @@ interface Props {
 export const Button = ({
   text = "Button",
   showButtonText = true,
-  showCaretup = true,
   type,
   className,
   icon = <Caretup3 className="caret-up" color="#AECBFA" />,
@@ -40,9 +38,9 @@ export const Button = ({
         dispatch("mouse_enter");
       }}
     >
-      {showButtonText && <div className="text-wrapper">{text}</div>}
+      {true && <div className="text-wrapper">{text}</div>}
 
-      {showCaretup && <>{icon}</>}
+      {<>{icon}</>}
     </button>
   );
 };

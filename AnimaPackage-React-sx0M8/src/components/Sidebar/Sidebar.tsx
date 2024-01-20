@@ -48,48 +48,46 @@ export const Sidebar = ({
         dispatch("mouse_enter");
       }}
     >
-      <div className="menu">
-        <Button
-          className={`${state.type === "collapsed" ? "class" : "bottom"}`}
-          icon={buttonIcon}
-          showButtonText={state.type === "collapsed" ? false : undefined}
-          text={state.type === "default" ? "Header" : undefined}
-          type="default"
-        />
-        <Button
-          className={`${state.type === "collapsed" ? "class" : "bottom"}`}
-          icon={override}
-          showButtonText={state.type === "collapsed" ? false : undefined}
-          text={state.type === "default" ? "Generate" : undefined}
-          type="default"
-        />
-        <Button
-          className={`${state.type === "collapsed" ? "class" : "bottom"}`}
-          icon={buttonIcon1}
-          showButtonText={state.type === "collapsed" ? false : undefined}
-          text={state.type === "default" ? "Guide" : undefined}
-          type="default"
-        />
-        <Button
-          className={`${state.type === "collapsed" ? "class" : "bottom"}`}
-          icon={buttonIcon2}
-          showButtonText={state.type === "collapsed" ? false : undefined}
-          text={state.type === "default" ? "Creators" : undefined}
-          type="default"
-        />
-        <Button
-          className={`${state.type === "collapsed" ? "class" : "bottom"}`}
-          icon={buttonIcon3}
-          showButtonText={state.type === "collapsed" ? false : undefined}
-          text={state.type === "default" ? "Coming soon" : undefined}
-          type="default"
-        />
-      </div>
       <Button
-        className="bottom"
+        className={`${state.type === "collapsed" ? "closed" : "open"}`}
+        icon={buttonIcon}
+        showButtonText={state.type === "collapsed" ? false : undefined}
+        text="Header"
+        type="default"
+      />
+      <Button
+        className={`${state.type === "collapsed" ? "closed" : "open"}`}
+        icon={override}
+        showButtonText={state.type === "collapsed" ? false : undefined}
+        text="Generate"
+        type="default"
+      />
+      <Button
+        className={`${state.type === "collapsed" ? "closed" : "open"}`}
+        icon={buttonIcon1}
+        showButtonText={state.type === "collapsed" ? false : undefined}
+        text="Guide"
+        type="default"
+      />
+      <Button
+        className={`${state.type === "collapsed" ? "closed" : "open"}`}
+        icon={buttonIcon2}
+        showButtonText={state.type === "collapsed" ? false : undefined}
+        text="Creators"
+        type="default"
+      />
+      <Button
+        className={`${state.type === "collapsed" ? "closed" : "open"}`}
+        icon={buttonIcon3}
+        showButtonText={state.type === "collapsed" ? false : undefined}
+        text="Coming soon"
+        type="default"
+      />
+      <Button
+        className={`bottom ${state.type === "collapsed" ? "closed" : "open"}`}
         icon={buttonIcon4}
         showButtonText={state.type === "collapsed" ? false : undefined}
-        text={state.type === "default" ? "Button" : undefined}
+        text="Button"
         type="default"
       />
     </div>

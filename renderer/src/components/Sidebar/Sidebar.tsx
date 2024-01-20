@@ -35,7 +35,7 @@ export const Sidebar = ({
   buttonIcon4 = <Caretup3 className="icon-instance-node" color="#AECBFA" />,
 }: Props): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, {
-    type: type || "default",
+    type: "collapsed",
   });
 
   return (

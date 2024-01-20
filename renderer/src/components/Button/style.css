@@ -23,12 +23,6 @@
   position: relative;
 }
 
-.button .caret-up {
-  height: 38px !important;
-  position: relative !important;
-  width: 38px !important;
-}
-
 .button.hover {
   background-color: #6be0d81a;
 }

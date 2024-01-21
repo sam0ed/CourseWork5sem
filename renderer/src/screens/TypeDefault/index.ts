@@ -1,1 +1,0 @@
-export { TypeDefault } from "./TypeDefault";

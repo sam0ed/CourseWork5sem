@@ -1,8 +1,8 @@
 const { contextBridge } = require('electron')
+const fs = require('fs')
+const path = require('path')
 
-contextBridge.exposeInMainWorld('versions', {
-  node: () => process.versions.node,
-  chrome: () => process.versions.chrome,
-  electron: () => process.versions.electron
-  // we can also expose variables, not just functions
+// reading of the file needs to be async.
+contextBridge.exposeInMainWorld('creator', {
+  markdown: ()=> fs.readFileSync( path.join(__dirname,'./Creator.html') , 'utf8')
 })

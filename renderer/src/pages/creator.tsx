@@ -1,10 +1,7 @@
+
 export default function Creator() {
-
-
-    return (
-        <div>
-            Creator
-        </div>
-    );
+    const markdown = (window as any).creator.markdown();
+    console.log(markdown);
+    return <div dangerouslySetInnerHTML={{ __html: markdown }} />;
 }
 

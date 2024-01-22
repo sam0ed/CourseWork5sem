@@ -67,7 +67,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Generate"
         type="default"
-      // link={"/"}
+        link={"/"}
       />
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
@@ -75,7 +75,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Guide"
         type="default"
-      // link={"/guide"}
+        link={"/guide"}
       />
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
@@ -83,7 +83,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Creator"
         type="default"
-      // link={"/creator"}
+        link={"/creator"}
       />
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
@@ -91,7 +91,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Coming soon"
         type="default"
-      // link={"/coming-soon"}
+        link={"/coming-soon"}
       />
       <Button
         className={`bottom ${state.type === "collapsed" ? "closed" : "open"}`}
@@ -99,7 +99,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="License"
         type="default"
-      // link={"/license"}
+        link={"/license"}
       />
     </div>
   );

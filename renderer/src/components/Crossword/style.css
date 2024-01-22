@@ -1,8 +1,7 @@
 .crosswordSpace {
     display: flex;
     position: relative;
-    height: 100vh;
+    flex-grow: 1;
     flex-direction: column;
     transition: width 0.5s ease-in-out;
-
 }

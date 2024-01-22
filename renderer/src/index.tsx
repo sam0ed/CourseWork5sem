@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { Sidebar } from './components/Sidebar/Sidebar';
-import Crossword from './components/Crossword/Crossword';
+import { Sidebar } from './components/Sidebar';
+import Crossword from './components/Crossword';
 import Guide from './pages/guide';
 import Creator from './pages/creator';
 import ComingSoon from './pages/coming-soon';

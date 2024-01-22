@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ComingSoon() {
+export default function Guide() {
     return (
         <div>Guide</div>
     )

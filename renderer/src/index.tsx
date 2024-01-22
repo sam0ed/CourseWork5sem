@@ -6,6 +6,9 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar/Sidebar';
 import Crossword from './components/Crossword/Crossword';
 import Guide from './pages/guide';
+import Creator from './pages/creator';
+import ComingSoon from './pages/coming-soon';
+import License from './pages/license';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,13 +16,14 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <HashRouter>
-      <div style={{ display: 'flex', flexDirection: "row" }}>
-        <Sidebar />
-        <Routes>
-          <Route path="/" element={<Crossword />} />
-          <Route path="/guide" element={<Guide />} />
-        </Routes>
-      </div>
+      <Sidebar />
+      <Routes>
+        <Route path="/" element={<Crossword />} />
+        <Route path="/guide" element={<Guide />} />
+        <Route path="/creator" element={<Creator />} />
+        <Route path="/coming-soon" element={<ComingSoon />} />
+        <Route path="/license" element={<License />} />
+      </Routes>
     </HashRouter>
 
   </React.StrictMode>

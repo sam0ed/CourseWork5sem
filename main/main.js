@@ -16,13 +16,13 @@ function createMainWindow() {
         },
     });
 
-    // const startUrl = url.format({
-    //     pathname: path.join(__dirname, '../renderer/build/index.html'),
-    //     protocol: 'file:',
-    // })
+    const startUrl = url.format({
+        pathname: path.join(__dirname, '../renderer/build/index.html'),
+        protocol: 'file:',
+    })
 
-    // mainWindow.loadURL(startUrl);
-    mainWindow.loadURL('http://localhost:3000');
+    mainWindow.loadURL(startUrl);
+    // mainWindow.loadURL('http://localhost:3000');
 }
 
 app.on('ready', createMainWindow);

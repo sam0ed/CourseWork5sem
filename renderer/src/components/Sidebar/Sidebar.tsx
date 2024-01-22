@@ -1,4 +1,3 @@
-"use client"
 import PropTypes from "prop-types";
 import React from "react";
 import { useReducer } from "react";
@@ -8,12 +7,10 @@ import { Githublogo1 } from "../../icons/Githublogo1";
 import { Hourglass2 } from "../../icons/Hourglass2";
 import { Sealquestion1 } from "../../icons/Sealquestion1";
 import { Sparkle2 } from "../../icons/Sparkle2";
-import { Button } from "..//Button/Button";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from "next/link"
-import { usePathname, useRouter } from 'next/navigation'
+import { Button } from "../Button/Button";
+// import { usePathname, useRouter } from 'next/navigation'
 
-import "./style.css";
+// import "./style.css";
 
 // function TabBarIcon(props: {
 //   name: React.ComponentProps<typeof FontAwesomeIcon>['name'];
@@ -23,17 +20,15 @@ import "./style.css";
 // }
 
 interface Props {
-  type: "collapsed" | "default";
-  buttonIcon: JSX.Element;
-  override: JSX.Element;
-  buttonIcon1: JSX.Element;
-  buttonIcon2: JSX.Element;
-  buttonIcon3: JSX.Element;
-  buttonIcon4: JSX.Element;
+  buttonIcon?: JSX.Element;
+  override?: JSX.Element;
+  buttonIcon1?: JSX.Element;
+  buttonIcon2?: JSX.Element;
+  buttonIcon3?: JSX.Element;
+  buttonIcon4?: JSX.Element;
 }
 
 export const Sidebar = ({
-  type,
   buttonIcon = <Caretleft2 className="icon-instance-node" color="#AECBFA" />,
   override = <Sparkle2 className="icon-instance-node" color="#AECBFA" />,
   buttonIcon1 = <Sealquestion1 className="icon-instance-node" />,
@@ -45,8 +40,8 @@ export const Sidebar = ({
     type: "collapsed",
   });
 
-  const router = useRouter();
-  const pathname = usePathname();
+  // const router = useRouter();
+  // const pathname = usePathname();
 
   return (
     <div
@@ -72,7 +67,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Generate"
         type="default"
-        onClick={() => router.push('/')}
+      // link={"/"}
       />
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
@@ -80,7 +75,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Guide"
         type="default"
-        onClick={() => router.push('/guide')}
+      // link={"/guide"}
       />
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
@@ -88,7 +83,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Creator"
         type="default"
-        onClick={() => router.push('/creator')}
+      // link={"/creator"}
       />
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
@@ -96,7 +91,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="Coming soon"
         type="default"
-        onClick={() => router.push('/coming-soon')}
+      // link={"/coming-soon"}
       />
       <Button
         className={`bottom ${state.type === "collapsed" ? "closed" : "open"}`}
@@ -104,7 +99,7 @@ export const Sidebar = ({
         showButtonText={state.type === "collapsed" ? false : undefined}
         text="License"
         type="default"
-        onClick={() => router.push('/license')}
+      // link={"/license"}
       />
     </div>
   );

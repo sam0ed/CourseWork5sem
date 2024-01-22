@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { MouseEventHandler } from "react";
 import { useReducer } from "react";
-import { Caretup3 } from "../../icons/Caretup3";
+import { Caretup3 } from "../icons/Caretup3";
 // import "./style.css";
 import { Link, To } from "react-router-dom";
 

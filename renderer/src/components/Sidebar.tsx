@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { useReducer } from "react";
-import { Caretleft2 } from "../../icons/Caretleft2";
-import { Caretup3 } from "../../icons/Caretup3";
-import { Githublogo1 } from "../../icons/Githublogo1";
-import { Hourglass2 } from "../../icons/Hourglass2";
-import { Sealquestion1 } from "../../icons/Sealquestion1";
-import { Sparkle2 } from "../../icons/Sparkle2";
-import { Button } from "../Button/Button";
+import { Caretleft2 } from "../icons/Caretleft2";
+import { Caretup3 } from "../icons/Caretup3";
+import { Githublogo1 } from "../icons/Githublogo1";
+import { Hourglass2 } from "../icons/Hourglass2";
+import { Sealquestion1 } from "../icons/Sealquestion1";
+import { Sparkle2 } from "../icons/Sparkle2";
+import { Button } from "./Button";
 // import { usePathname, useRouter } from 'next/navigation'
 
 // import "./style.css";

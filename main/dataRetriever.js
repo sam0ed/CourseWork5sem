@@ -1,15 +1,16 @@
 const axios = require('axios');
 
-function generateWordLibrary(topic, sizeOfCrossword) {
+function generateWordLibrary(topic, sizeOfCrossword, bannedWords = []) {
     return axios.post('http://localhost:1234/v1/chat/completions', {
         messages: [
-            { role: 'system', content: 'Generate a list of unique, semantically different words related to a specific topic. The words can explore related concepts but should be distinct and relevant to the topic. No more than two words per entry.' },
+            { role: 'system', content: `Generate a list of unique, semantically different words related to a specific topic. The words can explore related concepts but should be distinct and relevant to the topic. No more than two words per entry. One entry per line. Following words must not be used: ${bannedWords}` },
             { role: 'user', content: `I need a list of words for a crossword. The topic is ${topic}. Please generate ${sizeOfCrossword} words. Output only words.` }
         ],
         temperature: 0.7,
         max_tokens: 150,
         stream: false
     }).then(response => {
+        console.log(response.data.choices[0].message);
         return response.data.choices[0].message;
     })
     .catch(error => {

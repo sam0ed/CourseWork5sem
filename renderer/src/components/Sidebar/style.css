@@ -1,0 +1,38 @@
+.sidebar {
+  display: flex;
+  align-items: flex-start;
+  height: 100vh;
+  width: 300px;
+  margin-left: -230px;
+  flex-direction: column;
+  transition: margin-left 0.5s ease-in-out;
+  background-color: rgb(16, 33, 40);
+
+  position: sticky;
+  top: 0;
+  bottom: 0;
+
+  .caretup-3 {
+    transition: transform 0.5s ease-in-out;
+  }
+}
+
+.sidebar .icon-instance-node {
+  height: 38px !important;
+  position: relative !important;
+  width: 38px !important;
+}
+
+.sidebar.collapsed {
+  .caretup-3 {
+    transform: rotate(-180deg);
+  }
+}
+
+.sidebar.default {
+  margin-left: 0px;
+}
+
+.sidebar .bottom {
+  margin-top: auto !important;
+}

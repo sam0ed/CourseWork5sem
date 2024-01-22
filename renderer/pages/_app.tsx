@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+// import "./style.css";
 import { Sidebar } from "@/components/Sidebar/Sidebar";
 import { Caretleft2 } from "@/icons/Caretleft2";
 import { Caretup3 } from "@/icons/Caretup3";

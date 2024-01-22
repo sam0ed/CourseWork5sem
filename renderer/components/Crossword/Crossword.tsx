@@ -1,6 +1,5 @@
-"use client"
 import React from 'react'
-import "./style.css";
+// import "./style.css";
 import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
 
 export default function Crossword() {

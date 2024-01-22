@@ -1,9 +1,11 @@
-"use client"
 import PropTypes from "prop-types";
 import React, { MouseEventHandler } from "react";
+import Link from "next/link";
 import { useReducer } from "react";
 import { Caretup3 } from "../../icons/Caretup3";
-import "./style.css";
+// import "./style.css";
+import { link } from "fs";
+import { Url } from "next/dist/shared/lib/router/router";
 
 interface Props {
   text: string | undefined;
@@ -12,6 +14,7 @@ interface Props {
   className: any;
   icon: JSX.Element;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  link?: Url;
   hoverable?: boolean | undefined;
 }
 
@@ -23,26 +26,28 @@ export const Button = ({
   icon = <Caretup3 className="caret-up" color="#AECBFA" />,
   onClick,
   hoverable = true,
+  link = "/",
 }: Props): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, {
     type: type || "default",
   });
 
   return (
-    <button
+    <Link
+      href={link}
       className={`button ${hoverable ? state.type : ''} ${className}`}
+      style={{ cursor: "pointer" }}
       onMouseLeave={() => {
         dispatch("mouse_leave");
       }}
       onMouseEnter={() => {
         dispatch("mouse_enter");
       }}
-      onClick={onClick}
     >
       {true && <div className="text-wrapper">{text}</div>}
 
       {<>{icon}</>}
-    </button>
+    </Link>
   );
 };
 

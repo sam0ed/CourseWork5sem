@@ -163,7 +163,6 @@ a {
 .detailsSpace {
   display: 'flex';
   padding: 20px;
-  margin: 10px 10px 30px 10px;
   align-content: 'center';
   border-radius: 10px;
   background-color: rgb(16, 33, 40);
@@ -174,9 +173,13 @@ a {
   position: relative;
   flex-direction: column;
   transition: width 0.5s ease-in-out;
-  padding: 10px;
+  flex-grow: 1;
+  ;
+  padding: 15px 25px;
 }
 
-details>summary::-webkit-details-marker {
-  display: none;
+.rai-dots .rai-circle {
+  width: 20px !important;
+  height: 20px !important;
+  margin-right: 7px !important;
 }

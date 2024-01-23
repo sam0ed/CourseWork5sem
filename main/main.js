@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path')
 const url = require('url');
+const { setupCrosswordCommunication } = require('./crosswordConfig.js');
 // if (require('electron-squirrel-startup')) app.quit();
 
 function createMainWindow() {
@@ -23,6 +24,7 @@ function createMainWindow() {
 
     // mainWindow.loadURL(startUrl);
     mainWindow.loadURL('http://localhost:3000');
+    setupCrosswordCommunication();
 }
 
 app.on('ready', createMainWindow);

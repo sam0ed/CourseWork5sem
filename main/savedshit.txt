@@ -1,8 +1,3 @@
-import React from 'react'
-// import "./style.css";
-import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
-
-export default function Crossword() {
     const data =
     {
         across: {
@@ -148,31 +143,3 @@ export default function Crossword() {
             },
         }
     }
-
-    const clueStyleOptions = [
-        'one', 'two', 'three'
-    ];
-
-    const sizeOptions = [
-        'Small', 'Medium', 'Large'
-    ];
-
-    return (
-
-        <ImportedCrossword
-            data={data}
-            theme={{
-                gridBackground: 'rgb(13, 26, 32)',
-                cellBackground: 'rgb(13, 26, 32)',
-                cellBorder: '#cccccc',
-                textColor: '#cccccc',
-                numberColor: '#cccccc',
-
-                highlightBackground: '#6be1d9',
-                focusBackground: 'rgb(174, 203, 250)',
-                columnBreakpoint: '768px',
-            }}
-        />
-
-    )
-}

@@ -1,12 +1,18 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import Crossword from '../components/Crossword';
 import { Dots } from "react-activity";
+import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
 
 export default function CrosswordPage() {
+    console.log('crossword page is rendered here')
     const [theme, setTheme] = useState(localStorage.getItem('theme') || '');
     const [clueStyle, setClueStyle] = useState(localStorage.getItem('clueStyle') || '');
     const [size, setSize] = useState(localStorage.getItem('size') || '');
+    const [clueStyleOptions, setClueStyleOptions] = useState([]);
+    const [sizeOptions, setSizeOptions] = useState([]);
+    const [crosswordData, setCrosswordData] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    // const [crosswordData, setCrosswordData] = useState(localStorage.getItem('crosswordData') || '');
 
     const allFieldsFilled = theme && clueStyle && size;
 
@@ -16,19 +22,37 @@ export default function CrosswordPage() {
         localStorage.setItem('size', size);
     }, [theme, clueStyle, size]);
 
+    // useEffect(() => {
+    //     localStorage.setItem('crosswordData', crosswordData);
+    // },[crosswordData])
 
+    const ipcRenderer = (window as any).ipcRenderer;
 
-    const clueStyleOptions = [
-        'one', 'two', 'three'
-    ];
+    ipcRenderer.on('crossword:renderedAccept', (clueStyleOptionsParam: any, sizeOptionsParam: any) => {
+        console.log('ipc renderer in crossword page works here')
+        setClueStyleOptions(clueStyleOptionsParam);
+        setSizeOptions(sizeOptionsParam);
+    });
+    ipcRenderer.on('crossword:dataAccept', (data: any) => {
+        console.log('ipc renderer in component works here')
+        // console.log(data);
+        setIsLoading(false);
+        setCrosswordData(data);
+    });
 
-    const sizeOptions = [
-        'Small', 'Medium', 'Large'
-    ];
+    useEffect(() => {
+        console.log('use effect in crossword page works here');
+        ipcRenderer.send('crossword:renderedRequest');
+    }, []);
+    function generateCrosswordData(topic: any, size: any, clueStyle: any) {
+        console.log('use effect in component works here');
+        ipcRenderer.send('crossword:dataRequest', topic, size, clueStyle);
+        setIsLoading(true);
+    }
 
     return (
         <div className='crosswordSpace'>
-            <div className='detailsSpace'>
+            <div className='detailsSpace' style={{ width: '100%' }}>
                 <details className='detailsBar' style={{ color: 'rgba(174, 203, 250, 1)', cursor: 'pointer' }}>
                     <summary style={{ fontWeight: 'bold', fontSize: '20px' }}>Customization</summary>
                     <div className='flex flex-row'>
@@ -76,7 +100,8 @@ export default function CrosswordPage() {
                         <div style={{ display: 'flex', flexDirection: 'column-reverse', width: '40%', alignItems: 'center' }}>
                             <button type="button"
                                 className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"} w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800`}
-                                disabled={!allFieldsFilled}>
+                                disabled={!allFieldsFilled}
+                                onClick={() => { generateCrosswordData(theme, size, clueStyle) }}>
                                 Generate
                             </button>
                             <button type="button"
@@ -88,7 +113,30 @@ export default function CrosswordPage() {
                     </div>
                 </details>
             </div>
-            <Crossword />
+            {/* <Crossword /> */}
+            {crosswordData ?
+                <ImportedCrossword
+                    data={(crosswordData as any)}
+                    theme={{
+                        gridBackground: 'rgb(13, 26, 32)',
+                        cellBackground: 'rgb(13, 26, 32)',
+                        cellBorder: '#cccccc',
+                        textColor: '#cccccc',
+                        numberColor: '#cccccc',
+
+                        highlightBackground: '#6be1d9',
+                        focusBackground: 'rgb(174, 203, 250)',
+                        columnBreakpoint: '768px',
+                    }}
+                />
+                : (isLoading ?
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+                        <Dots />
+                    </div>
+                    : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+                        <h1 style={{ fontSize: '30px', fontWeight: 'bold' }}>Generate a crossword</h1>
+                    </div>)
+            }
         </div>
 
     )

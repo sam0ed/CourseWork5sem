@@ -176,3 +176,7 @@ a {
   transition: width 0.5s ease-in-out;
   padding: 10px;
 }
+
+details>summary::-webkit-details-marker {
+  display: none;
+}

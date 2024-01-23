@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useState } from 'react';
 // import Crossword from '../components/Crossword';
 import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
@@ -11,6 +11,7 @@ export default function CrosswordPage() {
     const [clueStyleOptions, setClueStyleOptions] = useState([]);
     const [sizeOptions, setSizeOptions] = useState([]);
     const [crosswordData, setCrosswordData] = useState( '');
+    const crosswordRef = useRef(null);
     // const [crosswordData, setCrosswordData] = useState(localStorage.getItem('crosswordData') || '');
 
     const allFieldsFilled = theme && clueStyle && size;
@@ -113,6 +114,7 @@ export default function CrosswordPage() {
             {/* <Crossword /> */}
             {crosswordData ?
             <ImportedCrossword
+                ref={crosswordRef}
                 data={(crosswordData as any)}
                 theme={{
                     gridBackground: 'rgb(13, 26, 32)',

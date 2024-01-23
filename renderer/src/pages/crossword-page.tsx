@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import Crossword from '../components/Crossword';
+import { Dots } from "react-activity";
 
 export default function CrosswordPage() {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || '');
@@ -15,11 +16,6 @@ export default function CrosswordPage() {
         localStorage.setItem('size', size);
     }, [theme, clueStyle, size]);
 
-    useEffect(() => {
-        localStorage.setItem('theme', theme);
-        localStorage.setItem('clueStyle', clueStyle);
-        localStorage.setItem('size', size);
-    }, [theme, clueStyle, size]);
 
 
     const clueStyleOptions = [

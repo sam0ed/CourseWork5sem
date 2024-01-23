@@ -9,6 +9,7 @@
   "author": "noname",
   "license": "MIT",
   "dependencies": {
+    "axios": "^1.6.5",
     "electron": "^28.1.4"
   }
 }

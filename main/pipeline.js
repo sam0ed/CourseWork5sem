@@ -1,4 +1,4 @@
-const { generateLayout } = require('../Crossword-Layout-Generator/layout_generator.js');
+const { generateLayout } = require('./layout_generator.js');
 const { generateWordLibrary, generateClueForWord } = require('./dataRetriever.js');
 const assert = require('assert');
 
@@ -90,6 +90,12 @@ async function processWordClues(topic, numberOfWords, clueStyle) {
 
     const generatorJson = parseToGeneratorFormat(wordList, clueList);
     const layout = generateLayout(generatorJson); 
-    return parseToComponentFormat(layout.result);
+    const cleanedLayout = layout.result.filter(element => element.position !== undefined)
+    const componentFormat = parseToComponentFormat(cleanedLayout);
+    // console.log(componentFormat);
+    return componentFormat;
 }
 
+module.exports = { processWordClues };
+
+// processWordClues('sea', 10, 'cryptic')

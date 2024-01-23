@@ -10,7 +10,7 @@ function generateWordLibrary(topic, sizeOfCrossword, bannedWords = []) {
         max_tokens: 150,
         stream: false
     }).then(response => {
-        console.log(response.data.choices[0].message);
+        // console.log(response.data.choices[0].message);
         return response.data.choices[0].message;
     })
     .catch(error => {

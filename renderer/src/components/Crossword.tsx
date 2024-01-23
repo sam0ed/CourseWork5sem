@@ -1,8 +1,6 @@
 import React from 'react'
 // import "./style.css";
 import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
 
 export default function Crossword() {
     const data =
@@ -160,45 +158,21 @@ export default function Crossword() {
     ];
 
     return (
-        <div className='crosswordSpace'>
-            <details className='detailsBar' style={{ display: 'flex', flexDirection: 'row', color: '#cccccc' }}>
-                <summary>Epcot Center</summary>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <label className='topicLabel'>Topic:</label>
-                    <input className='topicInput' type="text" />
 
-                    <label className='clueStyleLabel'>Clue Style</label>
-                    <DropdownButton id="dropdown-basic-button" title="Clue Style">
-                        {clueStyleOptions.map((option, index) => (
-                            <Dropdown.Item key={index}>
-                                {option}
-                            </Dropdown.Item>
-                        ))}
-                    </DropdownButton>
+        <ImportedCrossword
+            data={data}
+            theme={{
+                gridBackground: 'rgb(13, 26, 32)',
+                cellBackground: 'rgb(13, 26, 32)',
+                cellBorder: '#cccccc',
+                textColor: '#cccccc',
+                numberColor: '#cccccc',
 
-                    <label className='sizeLabel'>size</label>
-                    <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                    </DropdownButton>
-                </div>
-            </details>
-            <ImportedCrossword
-                data={data}
-                theme={{
-                    gridBackground: 'rgb(13, 26, 32)',
-                    cellBackground: 'rgb(13, 26, 32)',
-                    cellBorder: '#cccccc',
-                    textColor: '#cccccc',
-                    numberColor: '#cccccc',
-
-                    highlightBackground: '#6be1d9',
-                    focusBackground: 'rgb(174, 203, 250)',
-                    columnBreakpoint: '768px',
-                }}
-            />
-        </div>
+                highlightBackground: '#6be1d9',
+                focusBackground: 'rgb(174, 203, 250)',
+                columnBreakpoint: '768px',
+            }}
+        />
 
     )
 }

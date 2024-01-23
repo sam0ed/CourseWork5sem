@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
-import Crossword from './components/Crossword';
+import CrosswordPage from './pages/crossword-page';
 import Guide from './pages/guide';
 import Creator from './pages/creator';
 import ComingSoon from './pages/coming-soon';
@@ -19,7 +18,7 @@ root.render(
     <HashRouter>
       <Sidebar />
       <Routes>
-        <Route path="/" element={<Crossword />} />
+        <Route path="/" element={<CrosswordPage />} />
         <Route path="/guide" element={<Guide />} />
         <Route path="/creator" element={<Creator />} />
         <Route path="/coming-soon" element={<ComingSoon />} />

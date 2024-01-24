@@ -12,7 +12,7 @@ export default function CrosswordPage() {
     const [size, setSize] = useState(localStorage.getItem('size') || '');
     const [clueStyleOptions, setClueStyleOptions] = useState([]);
     const [sizeOptions, setSizeOptions] = useState([]);
-    const crosswordRef = useRef(null);
+    const crosswordRef = useRef();
     const [isLoading, setIsLoading] = useState(false);
     // const [crosswordData, setCrosswordData] = useState('');
     let defaultCrosswordData;
@@ -64,7 +64,9 @@ export default function CrosswordPage() {
         console.log('use effect in component works here');
         ipcRenderer.send('crossword:dataRequest', topic, size, clueStyle);
         setIsLoading(true);
-
+    }
+    function checkCrossword() {
+        console.log((crosswordRef as any).current.isCrosswordCorrect());
     }
 
     return (
@@ -123,8 +125,9 @@ export default function CrosswordPage() {
                             </button>
                             <button type="button"
                                 className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
-                                disabled={!allFieldsFilled}>
-                                Get Hint
+                                disabled={!allFieldsFilled}
+                                onClick = {() => { checkCrossword() }}>
+                                Check 
                             </button>
                         </div>
                     </div>
@@ -133,7 +136,7 @@ export default function CrosswordPage() {
             {/* <Crossword /> */}
             {(crosswordData && !isLoading) ?
                 <ImportedCrossword
-                    ref={crosswordRef}
+                    ref={(crosswordRef as any)}
                     data={(crosswordData as any)}
                     theme={{
                         gridBackground: 'rgb(13, 26, 32)',

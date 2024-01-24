@@ -45,3 +45,19 @@ const ComingSoon = () => {
 };
 
 export default ComingSoon;
+
+// const style = ({
+    
+//     comingSoon:{
+//         display: 'flex',
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//         alignSelf: 'center',
+//         minHeight: '100vh',
+//         textAlign: 'center',
+//         padding: '20px',
+//         opacity: '0',
+//         animation: 'fadeInPage 1.5s forwards',
+//     },
+// })
+

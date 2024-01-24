@@ -35,7 +35,7 @@ const ComingSoon = () => {
             <div className="titleContainer">
                 <h1 className="animatedTitle">Coming Soon 🎉🚀</h1>
             </div>
-            <div className="blocksContainer">
+            <div className="comingFeaturesContainer">
                 {blocks.map((block, index) => (
                     <Block key={index} title={block.title} description={block.description} />
                 ))}

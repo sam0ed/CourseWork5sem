@@ -1,0 +1,87 @@
+/* SolveComponent.css */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.guideContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    /* justify-content: center; */
+    min-height: 100vh;
+    /* Full height of the viewport */
+    text-align: center;
+    padding: 20px;
+    opacity: 0;
+    animation: fadeInPage 1.5s forwards;
+
+
+}
+
+.stepContainer {
+    background: linear-gradient(-45deg, #2b7674, #184341, #338f8b);
+    background-size: 200% 200%;
+    animation: gradientAnimation 15s ease infinite;
+    color: #aecbfa;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 0 0 transparent;
+    display: flex;
+}
+
+.stepContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.stepContainer:hover {
+    box-shadow: 0 0 15px #6be1d9;
+    /* Glow on hover */
+}
+
+.stepHeader {
+    font-size: 24px;
+    /* margin-bottom: 10px; */
+}
+
+.stepNumber {
+    font-size: 90px;
+    font-weight: bold;
+    color: #6be1d9;
+    /* accent color */
+}
+
+.stepText {
+    font-size: 16px;
+    text-align: justify;
+}
+
+/* Additional global styles, if necessary */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}

@@ -1,18 +1,32 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react';
-// import Crossword from '../components/Crossword';
+import { Dots } from "react-activity";
 import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
 
 export default function CrosswordPage() {
     console.log('crossword page is rendered here')
+    // localStorage.clear();
+
     const [theme, setTheme] = useState(localStorage.getItem('theme') || '');
     const [clueStyle, setClueStyle] = useState(localStorage.getItem('clueStyle') || '');
     const [size, setSize] = useState(localStorage.getItem('size') || '');
     const [clueStyleOptions, setClueStyleOptions] = useState([]);
     const [sizeOptions, setSizeOptions] = useState([]);
-    const [crosswordData, setCrosswordData] = useState( '');
     const crosswordRef = useRef(null);
-    // const [crosswordData, setCrosswordData] = useState(localStorage.getItem('crosswordData') || '');
+    const [isLoading, setIsLoading] = useState(false);
+    // const [crosswordData, setCrosswordData] = useState('');
+    let defaultCrosswordData;
+    console.log(localStorage.getItem('crosswordData'))
+    if (localStorage.getItem('crosswordData') === null) {
+        defaultCrosswordData = '';
+        console.log('crossword data is null')
+    }
+    else {
+        console.log('crossword data is not null, trying to read crossword data...')
+        defaultCrosswordData = JSON.parse((localStorage.getItem('crosswordData') as any));
+        console.log('crossword data is read and attempted to be parsed')
+    }
+    const [crosswordData, setCrosswordData] = useState(defaultCrosswordData);
 
     const allFieldsFilled = theme && clueStyle && size;
 
@@ -22,9 +36,11 @@ export default function CrosswordPage() {
         localStorage.setItem('size', size);
     }, [theme, clueStyle, size]);
 
-    // useEffect(() => {
-    //     localStorage.setItem('crosswordData', crosswordData);
-    // },[crosswordData])
+    useEffect(() => {
+        console.log(JSON.stringify(crosswordData))
+        // console.log(JSON.parse((localStorage.getItem('crosswordData') as any)) )
+        localStorage.setItem('crosswordData', JSON.stringify(crosswordData));
+    }, [crosswordData])
 
     const ipcRenderer = (window as any).ipcRenderer;
 
@@ -36,6 +52,7 @@ export default function CrosswordPage() {
     ipcRenderer.on('crossword:dataAccept', (data: any) => {
         console.log('ipc renderer in component works here')
         // console.log(data);
+        setIsLoading(false);
         setCrosswordData(data);
     });
 
@@ -43,14 +60,16 @@ export default function CrosswordPage() {
         console.log('use effect in crossword page works here');
         ipcRenderer.send('crossword:renderedRequest');
     }, []);
-    function generateCrosswordData(topic:any, size:any, clueStyle:any) {
+    function generateCrosswordData(topic: any, size: any, clueStyle: any) {
         console.log('use effect in component works here');
-        ipcRenderer.send('crossword:dataRequest', topic, size,clueStyle);
+        ipcRenderer.send('crossword:dataRequest', topic, size, clueStyle);
+        setIsLoading(true);
+
     }
 
     return (
         <div className='crosswordSpace'>
-            <div className='detailsSpace' style={{ width: '100%'}}>
+            <div className='detailsSpace' style={{ width: '100%' }}>
                 <details className='detailsBar' style={{ color: 'rgba(174, 203, 250, 1)', cursor: 'pointer' }}>
                     <summary style={{ fontWeight: 'bold', fontSize: '20px' }}>Customization</summary>
                     <div className='flex flex-row'>
@@ -99,7 +118,7 @@ export default function CrosswordPage() {
                             <button type="button"
                                 className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"} w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800`}
                                 disabled={!allFieldsFilled}
-                                onClick={() => {generateCrosswordData(theme, size, clueStyle)}}>
+                                onClick={() => { generateCrosswordData(theme, size, clueStyle) }}>
                                 Generate
                             </button>
                             <button type="button"
@@ -112,23 +131,29 @@ export default function CrosswordPage() {
                 </details>
             </div>
             {/* <Crossword /> */}
-            {crosswordData ?
-            <ImportedCrossword
-                ref={crosswordRef}
-                data={(crosswordData as any)}
-                theme={{
-                    gridBackground: 'rgb(13, 26, 32)',
-                    cellBackground: 'rgb(13, 26, 32)',
-                    cellBorder: '#cccccc',
-                    textColor: '#cccccc',
-                    numberColor: '#cccccc',
-
-                    highlightBackground: '#6be1d9',
-                    focusBackground: 'rgb(174, 203, 250)',
-                    columnBreakpoint: '768px',
-                }}
-            />
-            : <div>loading</div>} 
+            {(crosswordData && !isLoading) ?
+                <ImportedCrossword
+                    ref={crosswordRef}
+                    data={(crosswordData as any)}
+                    theme={{
+                        gridBackground: 'rgb(13, 26, 32)',
+                        cellBackground: 'rgb(13, 26, 32)',
+                        cellBorder: '#cccccc',
+                        textColor: '#cccccc',
+                        numberColor: '#cccccc',
+                        highlightBackground: '#6be1d9',
+                        focusBackground: 'rgb(174, 203, 250)',
+                        columnBreakpoint: '768px',
+                    }}
+                />
+                : (isLoading ?
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+                        <Dots />
+                    </div>
+                    : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+                        <h1 style={{ fontSize: '30px', fontWeight: 'bold' }}>Generate a crossword</h1>
+                    </div>)
+            }
         </div>
 
     )

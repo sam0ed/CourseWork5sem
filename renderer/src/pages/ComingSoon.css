@@ -1,0 +1,111 @@
+.comingSoon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: center;
+    /* justify-content: center; */
+    min-height: 100vh;
+    /* Full height of the viewport */
+    text-align: center;
+    padding: 20px;
+    animation: fadeInPage 1.5s forwards;
+}
+
+.titleContainer {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    min-width: 100vh;
+}
+
+@keyframes typewriter {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.animatedTitle {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 1;
+    width: 0;
+    animation: typewriter 4s steps(40) 1s forwards;
+    font-size: 2.5em;
+    /* transition: font-size 0.3s ease; */
+}
+
+.animatedTitle:hover {
+    font-size: 3em;
+}
+
+.blocksContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* Adjust for left alignment */
+    align-items: flex-start;
+    max-height: 80vh;
+    overflow-y: auto;
+    /* Vertical scroll if content overflows */
+    width: 100%;
+    opacity: 0;
+    animation: fadeInBlocks 2s 1s forwards;
+}
+
+@keyframes fadeInPage {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInBlocks {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.comingSoonBlock {
+    background: linear-gradient(-45deg, #2b7674, #184341, #338f8b);
+    background-size: 200% 200%;
+    animation: gradientAnimation 15s ease infinite;
+    color: #aecbfa;
+    padding: 20px;
+    margin: 10px;
+    max-width: 300px;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 0 0 transparent;
+}
+
+
+.comingSoonBlock:hover {
+    box-shadow: 0 0 15px #6be1d9;
+    /* Glow on hover */
+}

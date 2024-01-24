@@ -1,48 +1,47 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import './ComingSoon.css';
+import Confetti from 'react-confetti';
 
-export default function ComingSoon() {
+const Block = ({ title, description }: any) => (
+    <div className="comingSoonBlock">
+        <h2>{title}</h2>
+        <p>{description}</p>
+    </div>
+);
+
+const ComingSoon = () => {
+    const [showConfetti, setShowConfetti] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setShowConfetti(false), 3000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    const blocks = [
+        { title: 'Remote API connection', description: 'This will add new compute capabilities to the program' },
+        { title: 'Fine tuning base LLM', description: 'Will provide better clue quality' },
+        { title: 'Web migration', description: 'Make platform more accessible by bringing it to the internet' },
+        // { title: 'Feature Two', description: 'Description of Feature Two' },
+        // { title: 'Feature Two', description: 'Description of Feature Two' },
+        // { title: 'Feature Two', description: 'Description of Feature Two' },
+        // { title: 'Feature Two', description: 'Description of Feature Two' },
+        // { title: 'Feature Two', description: 'Description of Feature Two' },
+        // Add more blocks as needed
+    ];
+
     return (
-        <div className='coming-soon-container'>
-            <h1 className='coming-soon-title'>Future Features En Route</h1>
-            <div className='feature-list'>
-                <Feature
-                    title="Advanced Puzzle Generator"
-                    description="An algorithm upgrade for crafting even more intricate crosswords with thematic symmetry."
-                />
-                <Feature
-                    title="Multiplayer Mode"
-                    description="Solve puzzles in real-time with friends or compete in crossword battles."
-                />
-                <Feature
-                    title="Custom Themes"
-                    description="Create and share your own themes and word lists for personalized puzzles."
-                />
-                <Feature
-                    title="Leaderboards & Achievements"
-                    description="Track your progress and achievements, see how you rank against other wordsmiths."
-                />
-                <Feature
-                    title="Cross-Platform Sync"
-                    description="Start a puzzle on your desktop and finish it on your mobile, seamlessly."
-                />
-                <Feature
-                    title="Voice Commands"
-                    description="Hands-free mode to solve puzzles using voice recognition technology."
-                />
-                <Feature
-                    title="Educational Tools"
-                    description="Educational packs for students to learn through crosswords, including history, science, and literature."
-                />
+        <div className="comingSoon">
+            {/* {showConfetti && <Confetti />} */}
+            <div className="titleContainer">
+                <h1 className="animatedTitle">Coming Soon 🎉🚀</h1>
+            </div>
+            <div className="comingFeaturesContainer">
+                {blocks.map((block, index) => (
+                    <Block key={index} title={block.title} description={block.description} />
+                ))}
             </div>
         </div>
-    )
-}
-
-function Feature({ title, description }: { title: string, description: string }) {
-    return (
-        <div className='feature'>
-            <h2 className='feature-title'>{title}</h2>
-            <p className='feature-description'>{description}</p>
-        </div>
     );
-}
+};
+
+export default ComingSoon;

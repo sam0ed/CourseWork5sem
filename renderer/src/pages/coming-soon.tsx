@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './ComingSoon.css';
 import Confetti from 'react-confetti';
 
-const Block = ({ title, description }:any) => (
+const Block = ({ title, description }: any) => (
     <div className="comingSoonBlock">
         <h2>{title}</h2>
         <p>{description}</p>
@@ -45,3 +45,19 @@ const ComingSoon = () => {
 };
 
 export default ComingSoon;
+
+// const style = ({
+    
+//     comingSoon:{
+//         display: 'flex',
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//         alignSelf: 'center',
+//         minHeight: '100vh',
+//         textAlign: 'center',
+//         padding: '20px',
+//         opacity: '0',
+//         animation: 'fadeInPage 1.5s forwards',
+//     },
+// })
+

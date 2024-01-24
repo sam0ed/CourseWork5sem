@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import { useState } from 'react';
 import { Dots } from "react-activity";
 import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
+import Confetti from 'react-confetti';
 
 export default function CrosswordPage() {
     console.log('crossword page is rendered here')
@@ -14,6 +15,9 @@ export default function CrosswordPage() {
     const [sizeOptions, setSizeOptions] = useState([]);
     const crosswordRef = useRef();
     const [isLoading, setIsLoading] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const [isCorrect, setIsCorrect] = useState(false);
+    const [popupClass, setPopupClass] = useState('');
     // const [crosswordData, setCrosswordData] = useState('');
     let defaultCrosswordData;
     console.log(localStorage.getItem('crosswordData'))
@@ -66,11 +70,72 @@ export default function CrosswordPage() {
         setIsLoading(true);
     }
     function checkCrossword() {
-        console.log((crosswordRef as any).current.isCrosswordCorrect());
+        const correct = false//(crosswordRef as any).current.isCrosswordCorrect();
+        setIsCorrect(correct);
+        setShowPopup(true);
+        setPopupClass('popup-enter');
+    }
+
+    function closePopup() {
+        setPopupClass('popup-leave');
+        setTimeout(() => setShowPopup(false), 500); // match this with the animation duration
     }
 
     return (
         <div className='crosswordSpace'>
+
+            {isCorrect &&
+                <div style={{
+                    position: 'fixed',
+                    width: '100%',
+                    height: '100%',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    pointerEvents: 'none',
+                }}>
+                    <Confetti recycle={showPopup} />
+                </div>
+            }
+
+            {showPopup && (
+                <div style={{
+                    position: 'fixed',
+                    width: '100%',
+                    height: '100%',
+                    top: 0,
+                    left: 0,
+                    backgroundColor: 'rgba(0,0,0, 0.5)',
+                }} >
+                    <div
+                        className={`${popupClass}`}
+                        style={{
+                            color: 'rgba(174, 203, 250, 1)',
+                            boxShadow: isCorrect ? '0 0 15px #6be1d9' : 'none',
+                            position: 'absolute',
+                            fontSize: '30px',
+                            fontWeight: 'bold',
+                            left: '25%',
+                            right: '25%',
+                            top: '10%',
+                            margin: 'auto',
+                            borderRadius: '20px',
+                            background: 'rgb(16, 33, 40)',
+                            padding: '20px',
+                            textAlign: 'center',
+                        }}>
+                        <h2>{isCorrect ? "Correct!" : "Incorrect!"}</h2>
+                        <p>{isCorrect ? '🔥🧠🥳' : '😓😟🥺'}</p>
+                        <button type="button"
+                            className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
+                            disabled={!allFieldsFilled}
+                            onClick={() => { closePopup() }}>
+                            Close
+                        </button>
+                    </div>
+                </div>)}
+
             <div className='detailsSpace' style={{ width: '100%' }}>
                 <details className='detailsBar' style={{ color: 'rgba(174, 203, 250, 1)', cursor: 'pointer' }}>
                     <summary style={{ fontWeight: 'bold', fontSize: '20px' }}>Customization</summary>
@@ -126,8 +191,8 @@ export default function CrosswordPage() {
                             <button type="button"
                                 className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
                                 disabled={!allFieldsFilled}
-                                onClick = {() => { checkCrossword() }}>
-                                Check 
+                                onClick={() => { checkCrossword() }}>
+                                Check
                             </button>
                         </div>
                     </div>
@@ -161,3 +226,26 @@ export default function CrosswordPage() {
 
     )
 }
+
+const styles = {
+    popup: {
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        margin: 'auto',
+        backgroundColor: 'rgba(0,0,0, 0.5)',
+    },
+    popupInner: {
+        left: '25%',
+        right: '25%',
+        top: '25%',
+        margin: 'auto',
+        borderRadius: '20px',
+        background: 'white',
+        padding: '20px',
+        textAlign: 'center',
+    }
+};

@@ -8,6 +8,7 @@ import { Hourglass2 } from "../icons/Hourglass2";
 import { Sealquestion1 } from "../icons/Sealquestion1";
 import { Sparkle2 } from "../icons/Sparkle2";
 import { Button } from "./Button";
+import { Logo } from "../icons/Logo/Logo";
 // import { usePathname, useRouter } from 'next/navigation'
 
 // import "./style.css";
@@ -20,7 +21,7 @@ import { Button } from "./Button";
 // }
 
 interface Props {
-  buttonIcon?: JSX.Element;
+  logoIcon?: JSX.Element;
   override?: JSX.Element;
   buttonIcon1?: JSX.Element;
   buttonIcon2?: JSX.Element;
@@ -29,7 +30,7 @@ interface Props {
 }
 
 export const Sidebar = ({
-  buttonIcon = <Caretleft2 className="icon-instance-node" color="#AECBFA" />,
+  logoIcon = <Logo className="icon-instance-node" color="#AECBFA" />,
   override = <Sparkle2 className="icon-instance-node" color="#AECBFA" />,
   buttonIcon1 = <Sealquestion1 className="icon-instance-node" />,
   buttonIcon2 = <Githublogo1 className="icon-instance-node" />,
@@ -55,16 +56,15 @@ export const Sidebar = ({
     >
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
-        icon={buttonIcon}
-        showButtonText={state.type === "collapsed" ? false : undefined}
-        text="Header"
+        icon={logoIcon}
+        glow={true}
+        text="CrossGen"
         type="default"
         hoverable={false}
       />
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
         icon={override}
-        showButtonText={state.type === "collapsed" ? false : undefined}
         text="Generate"
         type="default"
         link={"/"}
@@ -72,7 +72,6 @@ export const Sidebar = ({
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
         icon={buttonIcon1}
-        showButtonText={state.type === "collapsed" ? false : undefined}
         text="Guide"
         type="default"
         link={"/guide"}
@@ -80,7 +79,6 @@ export const Sidebar = ({
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
         icon={buttonIcon2}
-        showButtonText={state.type === "collapsed" ? false : undefined}
         text="Creator"
         type="default"
         link={"/creator"}
@@ -88,7 +86,6 @@ export const Sidebar = ({
       <Button
         className={`${state.type === "collapsed" ? "closed" : "open"}`}
         icon={buttonIcon3}
-        showButtonText={state.type === "collapsed" ? false : undefined}
         text="Coming soon"
         type="default"
         link={"/coming-soon"}
@@ -96,7 +93,6 @@ export const Sidebar = ({
       <Button
         className={`bottom ${state.type === "collapsed" ? "closed" : "open"}`}
         icon={buttonIcon4}
-        showButtonText={state.type === "collapsed" ? false : undefined}
         text="License"
         type="default"
         link={"/license"}

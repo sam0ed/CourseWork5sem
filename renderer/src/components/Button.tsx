@@ -7,7 +7,7 @@ import { Link, To } from "react-router-dom";
 
 interface Props {
   text: string | undefined;
-  showButtonText: boolean | undefined;
+  glow?: boolean | undefined;
   type: "hover" | "default";
   className: any;
   icon: JSX.Element;
@@ -18,7 +18,7 @@ interface Props {
 
 export const Button = ({
   text = "Button",
-  showButtonText = true,
+  glow = false,
   type,
   className,
   icon = <Caretup3 className="caret-up" color="#AECBFA" />,
@@ -33,8 +33,11 @@ export const Button = ({
   return (
     <Link
       to={link}
-      className={`button ${hoverable ? state.type : ''} ${className}`}
-      style={{ cursor: `${hoverable ? "pointer" : "default"}` }}
+      className={`button ${hoverable ? state.type : ''} ${className} ${glow ? "glowing-text" : ""}`}
+      style={
+        {
+          cursor: `${hoverable ? "pointer" : "default"}`,
+        }}
       onMouseLeave={() => {
         dispatch("mouse_leave");
       }}

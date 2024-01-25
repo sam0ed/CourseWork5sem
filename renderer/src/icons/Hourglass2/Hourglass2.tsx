@@ -20,6 +20,7 @@ export const Hourglass2 = ({ color = "black", className }: Props): JSX.Element =
       viewBox="0 0 38 38"
       width="38"
       xmlns="http://www.w3.org/2000/svg"
+      style={{ textShadow: '0 0 10px #00ccff, 0 0 20px #3c4446' }}
     >
       <path
         className="path"

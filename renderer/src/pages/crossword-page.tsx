@@ -148,7 +148,15 @@ export default function CrosswordPage() {
                                 className="text-lg rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:placeholder-inherit"
                                 placeholder="Sport"
                                 value={theme}
-                                onChange={(e) => setTheme(e.target.value)}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    if (/^[a-zA-Z\s]*$/.test(value)) {
+                                        const words = value.split(' ').filter(word => word !== '');
+                                        if (words.length <= 3) {
+                                            setTheme(value);
+                                        }
+                                    }
+                                }}
                                 required />
 
                             {/* Clue Style */}

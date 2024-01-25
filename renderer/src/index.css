@@ -140,6 +140,25 @@ a {
   background-color: #6be0d81a;
 }
 
+.button.glowing-text {
+  height: 68px;
+  margin-bottom: 40px;
+}
+
+@font-face {
+  font-family: 'LiquidCrystal';
+  src: url('../public/fonts/LiquidCrystal-Normal.otf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.button.glowing-text .text-wrapper {
+  /* color: rgba(16, 33, 40, 1); */
+  /* letter-spacing: 4px; */
+  font-weight: 600;
+  text-shadow: 0 0 10px #00ccff, 0 0 20px #3c4446, 0 0 30px #28a494, 0 0 40px #28a494, 0 0 50px #28a494;
+}
+
 .sidebar {
   display: flex;
   align-items: flex-start;

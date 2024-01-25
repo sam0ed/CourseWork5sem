@@ -5,7 +5,7 @@ import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword'
 import Confetti from 'react-confetti';
 
 export default function CrosswordPage() {
-    console.log('crossword page is rendered here')
+    // console.log('crossword page is rendered here')
     // localStorage.clear();
 
     const [theme, setTheme] = useState(localStorage.getItem('theme') || '');
@@ -19,16 +19,13 @@ export default function CrosswordPage() {
     const [isCorrect, setIsCorrect] = useState(false);
     const [popupClass, setPopupClass] = useState('');
     // const [crosswordData, setCrosswordData] = useState('');
+
     let defaultCrosswordData;
-    console.log(localStorage.getItem('crosswordData'))
     if (localStorage.getItem('crosswordData') === null) {
         defaultCrosswordData = '';
-        console.log('crossword data is null')
     }
     else {
-        console.log('crossword data is not null, trying to read crossword data...')
         defaultCrosswordData = JSON.parse((localStorage.getItem('crosswordData') as any));
-        console.log('crossword data is read and attempted to be parsed')
     }
     const [crosswordData, setCrosswordData] = useState(defaultCrosswordData);
 
@@ -41,36 +38,34 @@ export default function CrosswordPage() {
     }, [theme, clueStyle, size]);
 
     useEffect(() => {
-        console.log(JSON.stringify(crosswordData))
+        // console.log(JSON.stringify(crosswordData))
         // console.log(JSON.parse((localStorage.getItem('crosswordData') as any)) )
         localStorage.setItem('crosswordData', JSON.stringify(crosswordData));
     }, [crosswordData])
 
     const ipcRenderer = (window as any).ipcRenderer;
 
-    ipcRenderer.on('crossword:renderedAccept', (clueStyleOptionsParam: any, sizeOptionsParam: any) => {
-        console.log('ipc renderer in crossword page works here')
-        setClueStyleOptions(clueStyleOptionsParam);
-        setSizeOptions(sizeOptionsParam);
-    });
     ipcRenderer.on('crossword:dataAccept', (data: any) => {
-        console.log('ipc renderer in component works here')
-        // console.log(data);
         setIsLoading(false);
         setCrosswordData(data);
     });
+    ipcRenderer.on('crossword:renderedAccept', (clueStyleOptionsParam: any, sizeOptionsParam: any) => {
+        setClueStyleOptions(clueStyleOptionsParam);
+        setSizeOptions(sizeOptionsParam);
+    });
+    console.log('the component is rerendererd')
 
     useEffect(() => {
-        console.log('use effect in crossword page works here');
+        localStorage.clear();
         ipcRenderer.send('crossword:renderedRequest');
     }, []);
+
     function generateCrosswordData(topic: any, size: any, clueStyle: any) {
-        console.log('use effect in component works here');
         ipcRenderer.send('crossword:dataRequest', topic, size, clueStyle);
         setIsLoading(true);
     }
     function checkCrossword() {
-        const correct = false//(crosswordRef as any).current.isCrosswordCorrect();
+        const correct = (crosswordRef as any).current.isCrosswordCorrect();
         setIsCorrect(correct);
         setShowPopup(true);
         setPopupClass('popup-enter');
@@ -191,14 +186,14 @@ export default function CrosswordPage() {
                         {/* Buttons */}
                         <div style={{ display: 'flex', flexDirection: 'column-reverse', width: '40%', alignItems: 'center' }}>
                             <button type="button"
-                                className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"} w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800`}
-                                disabled={!allFieldsFilled}
+                                className={` ${!allFieldsFilled || isLoading ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"} w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800`}
+                                disabled={!allFieldsFilled || isLoading}
                                 onClick={() => { generateCrosswordData(theme, size, clueStyle) }}>
                                 Generate
                             </button>
                             <button type="button"
-                                className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
-                                disabled={!allFieldsFilled}
+                                className={` ${!allFieldsFilled || crosswordData === '' || isLoading ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
+                                disabled={!allFieldsFilled || crosswordData === '' || isLoading}
                                 onClick={() => { checkCrossword() }}>
                                 Check
                             </button>
@@ -217,8 +212,8 @@ export default function CrosswordPage() {
                         cellBorder: '#cccccc',
                         textColor: '#cccccc',
                         numberColor: '#cccccc',
-                        highlightBackground: '#6be1d9',
-                        focusBackground: 'rgb(174, 203, 250)',
+                        highlightBackground: 'rgb(31, 41, 55);',
+                        focusBackground: 'rgb(3, 105, 161)',
                         columnBreakpoint: '768px',
                     }}
                 />

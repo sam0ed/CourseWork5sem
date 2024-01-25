@@ -186,14 +186,14 @@ export default function CrosswordPage() {
                         {/* Buttons */}
                         <div style={{ display: 'flex', flexDirection: 'column-reverse', width: '40%', alignItems: 'center' }}>
                             <button type="button"
-                                className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"} w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800`}
-                                disabled={!allFieldsFilled}
+                                className={` ${!allFieldsFilled || isLoading ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"} w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800`}
+                                disabled={!allFieldsFilled || isLoading}
                                 onClick={() => { generateCrosswordData(theme, size, clueStyle) }}>
                                 Generate
                             </button>
                             <button type="button"
-                                className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
-                                disabled={!allFieldsFilled}
+                                className={` ${!allFieldsFilled || crosswordData === '' || isLoading ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
+                                disabled={!allFieldsFilled || crosswordData === '' || isLoading}
                                 onClick={() => { checkCrossword() }}>
                                 Check
                             </button>
@@ -212,8 +212,8 @@ export default function CrosswordPage() {
                         cellBorder: '#cccccc',
                         textColor: '#cccccc',
                         numberColor: '#cccccc',
-                        highlightBackground: '#6be1d9',
-                        focusBackground: 'rgb(174, 203, 250)',
+                        highlightBackground: 'rgb(31, 41, 55);',
+                        focusBackground: 'rgb(3, 105, 161)',
                         columnBreakpoint: '768px',
                     }}
                 />

@@ -5,7 +5,7 @@ import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword'
 import Confetti from 'react-confetti';
 
 export default function CrosswordPage() {
-    console.log('crossword page is rendered here')
+    // console.log('crossword page is rendered here')
     // localStorage.clear();
 
     const [theme, setTheme] = useState(localStorage.getItem('theme') || '');
@@ -19,16 +19,13 @@ export default function CrosswordPage() {
     const [isCorrect, setIsCorrect] = useState(false);
     const [popupClass, setPopupClass] = useState('');
     // const [crosswordData, setCrosswordData] = useState('');
+
     let defaultCrosswordData;
-    console.log(localStorage.getItem('crosswordData'))
     if (localStorage.getItem('crosswordData') === null) {
         defaultCrosswordData = '';
-        console.log('crossword data is null')
     }
     else {
-        console.log('crossword data is not null, trying to read crossword data...')
         defaultCrosswordData = JSON.parse((localStorage.getItem('crosswordData') as any));
-        console.log('crossword data is read and attempted to be parsed')
     }
     const [crosswordData, setCrosswordData] = useState(defaultCrosswordData);
 
@@ -41,36 +38,34 @@ export default function CrosswordPage() {
     }, [theme, clueStyle, size]);
 
     useEffect(() => {
-        console.log(JSON.stringify(crosswordData))
+        // console.log(JSON.stringify(crosswordData))
         // console.log(JSON.parse((localStorage.getItem('crosswordData') as any)) )
         localStorage.setItem('crosswordData', JSON.stringify(crosswordData));
     }, [crosswordData])
 
     const ipcRenderer = (window as any).ipcRenderer;
 
-    ipcRenderer.on('crossword:renderedAccept', (clueStyleOptionsParam: any, sizeOptionsParam: any) => {
-        console.log('ipc renderer in crossword page works here')
-        setClueStyleOptions(clueStyleOptionsParam);
-        setSizeOptions(sizeOptionsParam);
-    });
     ipcRenderer.on('crossword:dataAccept', (data: any) => {
-        console.log('ipc renderer in component works here')
-        // console.log(data);
         setIsLoading(false);
         setCrosswordData(data);
     });
+    ipcRenderer.on('crossword:renderedAccept', (clueStyleOptionsParam: any, sizeOptionsParam: any) => {
+        setClueStyleOptions(clueStyleOptionsParam);
+        setSizeOptions(sizeOptionsParam);
+    });
+    console.log('the component is rerendererd')
 
     useEffect(() => {
-        console.log('use effect in crossword page works here');
+        localStorage.clear();
         ipcRenderer.send('crossword:renderedRequest');
     }, []);
+
     function generateCrosswordData(topic: any, size: any, clueStyle: any) {
-        console.log('use effect in component works here');
         ipcRenderer.send('crossword:dataRequest', topic, size, clueStyle);
         setIsLoading(true);
     }
     function checkCrossword() {
-        const correct = false//(crosswordRef as any).current.isCrosswordCorrect();
+        const correct = (crosswordRef as any).current.isCrosswordCorrect();
         setIsCorrect(correct);
         setShowPopup(true);
         setPopupClass('popup-enter');

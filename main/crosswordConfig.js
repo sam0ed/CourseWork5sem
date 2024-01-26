@@ -2,7 +2,7 @@ const { ipcMain } = require('electron');
 const { processWordClues } = require('./pipeline.js');
 const assert = require('assert');
 
-clueStyleOptions = ['cryptic', 'humorous']
+clueStyleOptions = ['cryptic', 'humorous', 'pessimistic']
 sizeOptions = {
     'small': 10,
     'medium': 20,
@@ -24,7 +24,7 @@ function setupCrosswordCommunication() {
         assert(clueStyleOptions.includes(clueStyle), `clueStyle must be one of ${clueStyleOptions}`)
         assert(sizeOptions.hasOwnProperty(size), `numberOfWords must be one of ${sizeOptions}`);
 
-        //TODO: comment this section out. It's just for testing
+        // // TODO: comment this section out. It's just for testing
         // let testData = {
         //     across: {
         //         1: {
@@ -43,11 +43,11 @@ function setupCrosswordCommunication() {
         //         },
         //     },
         // }
-        // test reply below
+        // // test reply below
         // event.reply('crossword:dataAccept', testData)
         processWordClues(topic, sizeOptions[size], clueStyle).then(data => {
             event.reply('crossword:dataAccept', data);
-            console.log('data sent');
+            console.log(data);
         });
 
 

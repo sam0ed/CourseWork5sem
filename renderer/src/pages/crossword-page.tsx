@@ -38,7 +38,7 @@ export default function CrosswordPage() {
     }, [theme, clueStyle, size]);
 
     useEffect(() => {
-        // console.log(JSON.stringify(crosswordData))
+        console.log(JSON.stringify(crosswordData), ' is saved into local storage')
         // console.log(JSON.parse((localStorage.getItem('crosswordData') as any)) )
         localStorage.setItem('crosswordData', JSON.stringify(crosswordData));
     }, [crosswordData])
@@ -53,10 +53,12 @@ export default function CrosswordPage() {
         setClueStyleOptions(clueStyleOptionsParam);
         setSizeOptions(sizeOptionsParam);
     });
+    ipcRenderer.on('mainWindow:close', () => { localStorage.clear();});
     console.log('the component is rerendererd')
 
     useEffect(() => {
-        localStorage.clear();
+        // localStorage.clear();
+        // console.log('clearing use effect is run now')
         ipcRenderer.send('crossword:renderedRequest');
     }, []);
 
@@ -212,7 +214,7 @@ export default function CrosswordPage() {
                         cellBorder: '#cccccc',
                         textColor: '#cccccc',
                         numberColor: '#cccccc',
-                        highlightBackground: 'rgb(31, 41, 55);',
+                        highlightBackground: '#374151',
                         focusBackground: 'rgb(3, 105, 161)',
                         columnBreakpoint: '768px',
                     }}

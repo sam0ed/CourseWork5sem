@@ -56,7 +56,7 @@ function parseToComponentFormat(output_json) {
     return output_json.reduce((acc, element) => {
         const entry = {
             clue: element.clue,
-            answer: element.answer,
+            answer: element.answer.toUpperCase(),
             row: element.starty - 1,
             col: element.startx - 1
         };

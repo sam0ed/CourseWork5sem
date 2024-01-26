@@ -6,9 +6,10 @@ const { setupCrosswordCommunication } = require('./crosswordConfig.js');
 
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
-        title: 'Electron',
+        title: 'CrossGen',
         width: 1000,
         height: 600,
+        icon: path.join(__dirname, '../renderer/src/icons/Logo/logo.png'),
         webPreferences: {
             // webSecurity: false,
             nodeIntegration: true,
@@ -24,8 +25,14 @@ function createMainWindow() {
 
     // mainWindow.loadURL(startUrl);
     mainWindow.loadURL('http://localhost:3000');
-    // mainWindow.setMenu(null);
+
+    //comment next line to enable dev tools
+    mainWindow.setMenu(null);
     setupCrosswordCommunication();
+    mainWindow.on('close', (event) => {
+        mainWindow.webContents.send('mainWindow:close');
+    })
 }
 
 app.on('ready', createMainWindow);
+

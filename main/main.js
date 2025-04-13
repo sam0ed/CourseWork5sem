@@ -1,9 +1,13 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
-const { setupCrosswordCommunication } = require('./crosswordConfig.js');
+const { setupCrosswordCommunication } = require('./config/ipcController.js');
 // if (require('electron-squirrel-startup')) app.quit();
 
+/**
+ * Creates and configures the main application window
+ * @returns {BrowserWindow} - The created window instance
+ */
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
         title: 'CrossGen',
@@ -18,21 +22,45 @@ function createMainWindow() {
         },
     });
 
+    // Load the application UI
+    // For production:
     // const startUrl = url.format({
     //     pathname: path.join(__dirname, '../renderer/build/index.html'),
     //     protocol: 'file:',
     // })
-
     // mainWindow.loadURL(startUrl);
+    
+    // For development:
     mainWindow.loadURL('http://localhost:3000');
 
-    //comment next line to enable dev tools
+    // Hide menu in production
     mainWindow.setMenu(null);
+    
+    // Setup communication channels
     setupCrosswordCommunication();
+    
+    // Handle window close
     mainWindow.on('close', (event) => {
         mainWindow.webContents.send('mainWindow:close');
-    })
+    });
+    
+    return mainWindow;
 }
 
+// Create window when app is ready
 app.on('ready', createMainWindow);
+
+// Handle app activation (macOS)
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createMainWindow();
+    }
+});
+
+// Quit the app when all windows are closed (except on macOS)
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
 

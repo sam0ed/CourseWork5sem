@@ -1,6 +1,6 @@
-const { generateLayout } = require('./layout_generator.js');
-const { generateWordLibrary, generateClueForWord } = require('./dataRetriever.js');
-const assert = require('assert');
+/**
+ * Utility functions for data processing in crossword generation
+ */
 
 /**
  * Removes duplicate words or phrases that share common words,
@@ -85,43 +85,9 @@ function parseToComponentFormat(output_json) {
     }, { across: {}, down: {} });
 }
 
-/**
- * Main pipeline function to process words and clues for crossword generation
- * @param {string} topic - Crossword topic
- * @param {number} numberOfWords - Number of words to generate
- * @param {string} clueStyle - Style of clues
- * @returns {Object} - Formatted crossword data ready for component
- */
-async function processWordClues(topic, numberOfWords, clueStyle) {
-    let wordList = [];
-    
-    // Generate words until we reach the desired number
-    do {
-        assert(numberOfWords - wordList.length > 0, 'numberOfWords-wordList.length is negative');
-        
-        const response = await generateWordLibrary(topic, numberOfWords - wordList.length, wordList);
-        const responseEntryList = response.content.split('\n');
-        const cleanResponse = cleanWordPrompt(responseEntryList);
-        
-        wordList = wordList.concat(cleanResponse);
-        wordList = removeDuplicatesWithCommonWords(wordList);
-        wordList = wordList.slice(0, numberOfWords);
-    } while (numberOfWords !== wordList.length);
-
-    // Generate clues for each word
-    const responseList = await Promise.all(wordList.map(word => generateClueForWord(word, clueStyle)));
-    const clueList = responseList.map((response, ind) => 
-        response.content.toLowerCase().replace(wordList[ind].toLowerCase(), '______'));
-
-    // Format and generate layout
-    const generatorJson = parseToGeneratorFormat(wordList, clueList);
-    const layout = generateLayout(generatorJson); 
-    const cleanedLayout = layout.result.filter(element => element.position !== undefined);
-    const componentFormat = parseToComponentFormat(cleanedLayout);
-    
-    return componentFormat;
-}
-
-module.exports = { processWordClues };
-
-// processWordClues('sea', 10, 'cryptic')
+module.exports = {
+    removeDuplicatesWithCommonWords,
+    cleanWordPrompt,
+    parseToGeneratorFormat,
+    parseToComponentFormat
+}; 

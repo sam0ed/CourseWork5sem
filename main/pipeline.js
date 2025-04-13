@@ -2,6 +2,12 @@ const { generateLayout } = require('./layout_generator.js');
 const { generateWordLibrary, generateClueForWord } = require('./dataRetriever.js');
 const assert = require('assert');
 
+/**
+ * Removes duplicate words or phrases that share common words,
+ * keeping the shorter of two duplicates
+ * @param {string[]} stringList - List of word phrases
+ * @returns {string[]} - Filtered list with duplicates removed
+ */
 function removeDuplicatesWithCommonWords(stringList) {
     let filteredList = [];
     let seenWords = new Set();
@@ -33,18 +39,25 @@ function removeDuplicatesWithCommonWords(stringList) {
     return filteredList;
 }
 
-
+/**
+ * Cleans and formats the word list from API response
+ * @param {string[]} response - Raw response entries
+ * @returns {string[]} - Cleaned word list
+ */
 function cleanWordPrompt(response) {
-    let cleanedResponse;
-    cleanedResponse = response.filter(element => element.length > 0);
+    let cleanedResponse = response.filter(element => element.length > 0);
     cleanedResponse = cleanedResponse.map(element => element.replace(/[^a-zA-Z ]/g, ''));
     cleanedResponse = cleanedResponse.map(element => element.trim().toLowerCase());
     cleanedResponse = cleanedResponse.filter(element => element.split(' ').length < 3);
-    // cleanedResponse = removeDuplicatesWithCommonWords(cleanedResponse);
     return cleanedResponse;
 }
 
-
+/**
+ * Formats word and clue data for the layout generator
+ * @param {string[]} wordList - List of words
+ * @param {string[]} clues - List of clues
+ * @returns {Object[]} - Formatted data for generator
+ */
 function parseToGeneratorFormat(wordList, clues) {
     return wordList.map((word, index) => ({
         clue: clues[index],
@@ -52,6 +65,11 @@ function parseToGeneratorFormat(wordList, clues) {
     }));
 }
 
+/**
+ * Formats layout generator output for the React component
+ * @param {Object[]} output_json - Generator output
+ * @returns {Object} - Formatted data for component
+ */
 function parseToComponentFormat(output_json) {
     return output_json.reduce((acc, element) => {
         const entry = {
@@ -67,32 +85,40 @@ function parseToComponentFormat(output_json) {
     }, { across: {}, down: {} });
 }
 
-
-
+/**
+ * Main pipeline function to process words and clues for crossword generation
+ * @param {string} topic - Crossword topic
+ * @param {number} numberOfWords - Number of words to generate
+ * @param {string} clueStyle - Style of clues
+ * @returns {Object} - Formatted crossword data ready for component
+ */
 async function processWordClues(topic, numberOfWords, clueStyle) {
     let wordList = [];
+    
+    // Generate words until we reach the desired number
     do {
-        assert(numberOfWords - wordList.length > 0, 'numberOfWords-someList.length is negative')
-        let response = await generateWordLibrary(topic, numberOfWords - wordList.length, bannedWords = wordList);
-        let responseEntryList = response.content.split('\n');
-        // let slicedEntryList = responseEntryList.slice(0, numberOfWords-wordList.length);
-        let cleanResponse = cleanWordPrompt(responseEntryList/*slicedEntryList*/);
+        assert(numberOfWords - wordList.length > 0, 'numberOfWords-wordList.length is negative');
+        
+        const response = await generateWordLibrary(topic, numberOfWords - wordList.length, wordList);
+        const responseEntryList = response.content.split('\n');
+        const cleanResponse = cleanWordPrompt(responseEntryList);
+        
         wordList = wordList.concat(cleanResponse);
-
         wordList = removeDuplicatesWithCommonWords(wordList);
         wordList = wordList.slice(0, numberOfWords);
+    } while (numberOfWords !== wordList.length);
 
-    }
-    while (numberOfWords !== wordList.length)
+    // Generate clues for each word
+    const responseList = await Promise.all(wordList.map(word => generateClueForWord(word, clueStyle)));
+    const clueList = responseList.map((response, ind) => 
+        response.content.toLowerCase().replace(wordList[ind].toLowerCase(), '______'));
 
-    const responseList =await Promise.all(wordList.map(word => generateClueForWord(word, clueStyle)));
-    const clueList = responseList.map((response, ind) => response.content.toLowerCase().replace(wordList[ind].toLowerCase(), 'gi'), '______');
-
+    // Format and generate layout
     const generatorJson = parseToGeneratorFormat(wordList, clueList);
     const layout = generateLayout(generatorJson); 
-    const cleanedLayout = layout.result.filter(element => element.position !== undefined)
+    const cleanedLayout = layout.result.filter(element => element.position !== undefined);
     const componentFormat = parseToComponentFormat(cleanedLayout);
-    // console.log(componentFormat);
+    
     return componentFormat;
 }
 

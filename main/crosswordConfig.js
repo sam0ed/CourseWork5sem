@@ -2,58 +2,42 @@ const { ipcMain } = require('electron');
 const { processWordClues } = require('./pipeline.js');
 const assert = require('assert');
 
-clueStyleOptions = ['cryptic', 'humorous', 'pessimistic']
-sizeOptions = {
+const clueStyleOptions = ['cryptic', 'humorous', 'pessimistic'];
+const sizeOptions = {
     'small': 10,
     'medium': 20,
     'large': 30
 };
 
-crosswordState = null;
+let crosswordState = null;
 
-
+/**
+ * Sets up IPC communication for crossword generation functionality
+ */
 function setupCrosswordCommunication() {
+    // Handle request for configuration options
     ipcMain.on('crossword:renderedRequest', (event) => {
-        console.log(`request for config received`);
+        console.log('Request for config received');
         event.reply('crossword:renderedAccept', clueStyleOptions, Object.keys(sizeOptions));
-        console.log('config sent');
-    })
+        console.log('Config sent');
+    });
 
-    ipcMain.on('crossword:dataRequest', (event, topic, size, clueStyle) => {
-        // console.log(topic, size, clueStyle)
-        assert(clueStyleOptions.includes(clueStyle), `clueStyle must be one of ${clueStyleOptions}`)
-        assert(sizeOptions.hasOwnProperty(size), `numberOfWords must be one of ${sizeOptions}`);
-
-        // // TODO: comment this section out. It's just for testing
-        // let testData = {
-        //     across: {
-        //         1: {
-        //             clue: 'one plus one',
-        //             answer: 'TWO',
-        //             row: 0,
-        //             col: 0,
-        //         },
-        //     },
-        //     down: {
-        //         2: {
-        //             clue: 'three minus two',
-        //             answer: 'ONE',
-        //             row: 0,
-        //             col: 2,
-        //         },
-        //     },
-        // }
-        // // test reply below
-        // event.reply('crossword:dataAccept', testData)
-        processWordClues(topic, sizeOptions[size], clueStyle).then(data => {
+    // Handle request for crossword data generation
+    ipcMain.on('crossword:dataRequest', async (event, topic, size, clueStyle) => {
+        try {
+            // Validate inputs
+            assert(clueStyleOptions.includes(clueStyle), `clueStyle must be one of ${clueStyleOptions}`);
+            assert(sizeOptions.hasOwnProperty(size), `numberOfWords must be one of ${Object.keys(sizeOptions)}`);
+            
+            // Generate crossword data
+            const data = await processWordClues(topic, sizeOptions[size], clueStyle);
             event.reply('crossword:dataAccept', data);
-            console.log(data);
-        });
-
-
-    })
-
+            console.log('Data generated and sent');
+        } catch (error) {
+            console.error('Error generating crossword data:', error);
+            event.reply('crossword:dataError', error.message);
+        }
+    });
 }
-
 
 module.exports = { setupCrosswordCommunication };

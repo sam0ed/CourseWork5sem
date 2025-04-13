@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react';
 import { Dots } from "react-activity";
-import { Crossword as ImportedCrossword } from '@jaredreisinger/react-crossword';
+import { Crossword as ImportedCrossword, CrosswordProviderImperative } from '@jaredreisinger/react-crossword';
 import Confetti from 'react-confetti';
+import '../styles/index.css';
 
 export default function CrosswordPage() {
     // console.log('crossword page is rendered here')
@@ -13,7 +14,7 @@ export default function CrosswordPage() {
     const [size, setSize] = useState(localStorage.getItem('size') || '');
     const [clueStyleOptions, setClueStyleOptions] = useState([]);
     const [sizeOptions, setSizeOptions] = useState([]);
-    const crosswordRef = useRef();
+    const crosswordRef = useRef<CrosswordProviderImperative>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
@@ -67,7 +68,7 @@ export default function CrosswordPage() {
         setIsLoading(true);
     }
     function checkCrossword() {
-        const correct = (crosswordRef as any).current.isCrosswordCorrect();
+        const correct = crosswordRef.current?.isCrosswordCorrect() || false;
         setIsCorrect(correct);
         setShowPopup(true);
         setPopupClass('popup-enter');
@@ -79,53 +80,23 @@ export default function CrosswordPage() {
     }
 
     return (
-        <div className='crosswordSpace'>
+        <div className="page-container">
 
             {isCorrect &&
-                <div style={{
-                    position: 'fixed',
-                    width: '100%',
-                    height: '100%',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    pointerEvents: 'none',
-                }}>
+                <div className="fixed w-full h-full inset-0" style={{ pointerEvents: 'none' }}>
                     <Confetti recycle={showPopup} />
                 </div>
             }
 
             {showPopup && (
-                <div style={{
-                    position: 'fixed',
-                    width: '100%',
-                    height: '100%',
-                    top: 0,
-                    left: 0,
-                    backgroundColor: 'rgba(0,0,0, 0.5)',
-                }} >
+                <div className="popup-overlay">
                     <div
-                        className={`${popupClass}`}
-                        style={{
-                            color: 'rgba(174, 203, 250, 1)',
-                            boxShadow: isCorrect ? '0 0 15px #6be1d9' : 'none',
-                            position: 'absolute',
-                            fontSize: '30px',
-                            fontWeight: 'bold',
-                            left: '25%',
-                            right: '25%',
-                            top: '10%',
-                            margin: 'auto',
-                            borderRadius: '20px',
-                            background: 'rgb(16, 33, 40)',
-                            padding: '20px',
-                            textAlign: 'center',
-                        }}>
+                        className={`popup-content ${popupClass} ${isCorrect ? 'shadow-glow' : ''}`}
+                    >
                         <h2>{isCorrect ? "Correct!" : "Incorrect!"}</h2>
                         <p>{isCorrect ? '🔥🧠🥳' : '😓😟🥺'}</p>
                         <button type="button"
-                            className={` ${!allFieldsFilled ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
+                            className={`w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 ${!allFieldsFilled ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"}`}
                             disabled={!allFieldsFilled}
                             onClick={() => { closePopup() }}>
                             Close
@@ -133,14 +104,14 @@ export default function CrosswordPage() {
                     </div>
                 </div>)}
 
-            <div className='detailsSpace' style={{ width: '100%' }}>
-                <details className='detailsBar' style={{ color: 'rgba(174, 203, 250, 1)', cursor: 'pointer' }}>
-                    <summary style={{ fontWeight: 'bold', fontSize: '20px' }}>Customization</summary>
-                    <div className='flex flex-row'>
-                        <div style={{ display: 'flex', flexDirection: 'column', width: '60%' }}>
+            <div className="w-full">
+                <details className="text-primary cursor-pointer crossword-customization">
+                    <summary className="font-bold text-xl">Customization</summary>
+                    <div className="flex flex-row">
+                        <div className="flex flex-col w-3/5">
 
                             {/* Theme */}
-                            <label htmlFor="themeLabel" className="block mt-4 mb-2 text-sm font-medium ">Theme</label>
+                            <label htmlFor="themeLabel" className="block mt-4 mb-2 text-sm font-medium">Theme</label>
                             <input type="text" id="themeLabel"
                                 className="text-lg rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:placeholder-inherit"
                                 placeholder="Sport"
@@ -186,15 +157,15 @@ export default function CrosswordPage() {
                         </div>
 
                         {/* Buttons */}
-                        <div style={{ display: 'flex', flexDirection: 'column-reverse', width: '40%', alignItems: 'center' }}>
+                        <div className="flex flex-col-reverse w-2/5 items-center">
                             <button type="button"
-                                className={` ${!allFieldsFilled || isLoading ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"} w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800`}
+                                className={`w-3/5 h-1/5 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-8 dark:bg-sky-700 dark:hover:bg-sky-900 focus:outline-none dark:focus:ring-blue-800 ${!allFieldsFilled || isLoading ? "cursor-not-allowed opacity-60 " : "dark:shadow-lg dark:shadow-teal-800/80"}`}
                                 disabled={!allFieldsFilled || isLoading}
                                 onClick={() => { generateCrosswordData(theme, size, clueStyle) }}>
                                 Generate
                             </button>
                             <button type="button"
-                                className={` ${!allFieldsFilled || crosswordData === '' || isLoading ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"} w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 `}
+                                className={`w-3/5 h-1/5 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 mt-8 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 ${!allFieldsFilled || crosswordData === '' || isLoading ? "cursor-not-allowed opacity-60" : "dark:shadow-lg dark:shadow-gray-900 shadow"}`}
                                 disabled={!allFieldsFilled || crosswordData === '' || isLoading}
                                 onClick={() => { checkCrossword() }}>
                                 Check
@@ -203,54 +174,36 @@ export default function CrosswordPage() {
                     </div>
                 </details>
             </div>
-            {/* <Crossword /> */}
-            {(crosswordData && !isLoading) ?
-                <ImportedCrossword
-                    ref={(crosswordRef as any)}
-                    data={(crosswordData as any)}
-                    theme={{
-                        gridBackground: 'rgb(13, 26, 32)',
-                        cellBackground: 'rgb(13, 26, 32)',
-                        cellBorder: '#cccccc',
-                        textColor: '#cccccc',
-                        numberColor: '#cccccc',
-                        highlightBackground: '#374151',
-                        focusBackground: 'rgb(3, 105, 161)',
-                        columnBreakpoint: '768px',
-                    }}
-                />
-                : (isLoading ?
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
+
+            {/* Crossword Component */}
+            <div className="flex items-center justify-center w-full">
+                {isLoading ? (
+                    <div className="flex flex-col items-center justify-center min-h-80">
                         <Dots />
+                        <p className="text-primary">
+                            This can take a while... Also I'm supposed to bring you an entire crossword, give me a sec 🤗
+                        </p>
                     </div>
-                    : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
-                        <h1 style={{ fontSize: '30px', fontWeight: 'bold' }}>Generate a crossword</h1>
-                    </div>)
-            }
+                ) : (
+                    crosswordData && (
+                        <div className="crossword-container">
+                            <ImportedCrossword
+                                ref={crosswordRef}
+                                data={crosswordData}
+                                theme={{
+                                    gridBackground: "#102128",
+                                    cellBackground: "#2C454F",
+                                    cellBorder: "#69A3C0",
+                                    textColor: "#aecbfa",
+                                    numberColor: "#aecbfa",
+                                    focusBackground: "#1c6e3d",
+                                    highlightBackground: "#1a5a56",
+                                }}
+                            />
+                        </div>
+                    )
+                )}
+            </div>
         </div>
-
-    )
+    );
 }
-
-const styles = {
-    popup: {
-        width: '100%',
-        height: '100%',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        margin: 'auto',
-        backgroundColor: 'rgba(0,0,0, 0.5)',
-    },
-    popupInner: {
-        left: '25%',
-        right: '25%',
-        top: '25%',
-        margin: 'auto',
-        borderRadius: '20px',
-        background: 'white',
-        padding: '20px',
-        textAlign: 'center',
-    }
-};

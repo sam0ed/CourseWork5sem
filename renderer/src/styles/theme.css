@@ -1,0 +1,89 @@
+:root {
+  /* Colors */
+  --color-background: rgba(13, 26, 32, 1);
+  --color-surface: rgba(16, 33, 40, 1);
+  --color-primary: rgba(174, 203, 250, 1);
+  --color-accent: rgba(107, 225, 217, 1);
+  --color-secondary: rgba(253, 226, 147, 1);
+  --color-on-background: rgba(255, 255, 255, 1);
+  
+  /* Typography */
+  --font-family-primary: "Outfit-Medium", Helvetica;
+  --font-family-bold: "Outfit-Bold", Helvetica;
+  --font-size-small: 16px;
+  --font-size-medium: 24px;
+  --font-size-large: 30px;
+  --font-size-xlarge: 46px;
+  --font-size-xxlarge: 73px;
+  --font-size-header: 128px;
+  
+  /* Spacing */
+  --spacing-xs: 5px;
+  --spacing-sm: 10px;
+  --spacing-md: 20px;
+  --spacing-lg: 30px;
+  --spacing-xl: 40px;
+  
+  /* Borders and shadows */
+  --border-radius-sm: 10px;
+  --border-radius-md: 20px;
+  --shadow-glow: 0 0 15px var(--color-accent);
+}
+
+/* Typography styles */
+.title-large {
+  font-family: var(--font-family-bold);
+  font-size: var(--font-size-xxlarge);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.title-medium {
+  font-family: var(--font-family-bold);
+  font-size: var(--font-size-xlarge);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.title-small {
+  font-family: var(--font-family-bold);
+  font-size: var(--font-size-large);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.text-body {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-medium);
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.text-body-small {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-small);
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* Layout classes */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-md);
+}
+
+.card {
+  background: linear-gradient(-45deg, #2b7674, #184341, #338f8b);
+  background-size: 200% 200%;
+  border-radius: var(--border-radius-sm);
+  color: var(--color-primary);
+  padding: var(--spacing-md);
+  margin: var(--spacing-sm);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-glow);
+} 

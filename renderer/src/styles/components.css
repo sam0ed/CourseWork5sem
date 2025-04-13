@@ -1,0 +1,280 @@
+/* Page containers */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: var(--spacing-md);
+  color: var(--color-primary);
+}
+
+/* Title section */
+.title-container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  min-width: 100vh;
+  margin-bottom: var(--spacing-lg);
+}
+
+.animated-title {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  opacity: 1;
+  width: 0;
+  animation: typewriter 4s steps(40) forwards;
+  font-size: 2.5em;
+  transition: font-size 0.3s ease;
+  color: var(--color-primary);
+}
+
+.animated-title:hover {
+  font-size: 3em;
+}
+
+/* Feature cards */
+.feature-card {
+  background: linear-gradient(-45deg, #2b7674, #184341, #338f8b);
+  background-size: 200% 200%;
+  animation: gradientAnimation 15s ease infinite;
+  color: var(--color-primary);
+  padding: var(--spacing-md);
+  margin: var(--spacing-sm);
+  max-width: 300px;
+  border-radius: var(--border-radius-sm);
+  transition: box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 0 15px var(--color-accent);
+}
+
+/* Content containers */
+.feature-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-height: 80vh;
+  overflow-y: auto;
+  width: 100%;
+}
+
+/* Step components */
+.step-container {
+  background: linear-gradient(-45deg, #2b7674, #184341, #338f8b);
+  background-size: 200% 200%;
+  animation: gradientAnimation 15s ease infinite;
+  color: var(--color-primary);
+  padding-left: var(--spacing-md);
+  padding-right: var(--spacing-md);
+  margin: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  transition: box-shadow 0.3s ease;
+  display: flex;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: var(--spacing-md);
+}
+
+.step-container:hover {
+  box-shadow: 0 0 15px var(--color-accent);
+}
+
+.step-header {
+  font-size: var(--font-size-large);
+  font-weight: bold;
+}
+
+.step-number {
+  font-size: 90px;
+  font-weight: bold;
+  color: var(--color-accent);
+}
+
+.step-text {
+  font-size: var(--font-size-small);
+  text-align: justify;
+}
+
+/* Popup styling */
+.popup-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+}
+
+.popup-content {
+  color: var(--color-primary);
+  position: absolute;
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  left: 25%;
+  right: 25%;
+  top: 10%;
+  margin: auto;
+  border-radius: var(--border-radius-md);
+  background: var(--color-surface);
+  padding: var(--spacing-md);
+  text-align: center;
+}
+
+/* Sidebar styling */
+.sidebar {
+  display: flex;
+  align-items: flex-start;
+  height: 100vh;
+  width: 300px;
+  margin-left: -230px;
+  flex-direction: column;
+  transition: margin-left 0.5s ease-in-out;
+  background-color: var(--color-surface);
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.sidebar .icon-instance-node {
+  height: 38px !important;
+  position: relative !important;
+  width: 38px !important;
+}
+
+.sidebar.collapsed {
+  margin-left: -230px;
+}
+
+.sidebar.collapsed .caretup-3 {
+  transform: rotate(-180deg);
+}
+
+.sidebar.default {
+  margin-left: 0px;
+}
+
+.sidebar .bottom {
+  margin-top: auto !important;
+}
+
+/* Button styling for sidebar */
+.button {
+  all: unset;
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  gap: 14px;
+  padding: 7px 14px;
+  position: relative;
+  width: 300px;
+}
+
+.button .text-wrapper {
+  color: var(--color-primary);
+  flex: 1;
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-large);
+  font-weight: 500;
+  height: 38px;
+  letter-spacing: 0px;
+  line-height: normal;
+  margin-top: -1px;
+  position: relative;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.button.hover {
+  background-color: rgba(107, 224, 216, 0.1);
+}
+
+.button.closed .text-wrapper {
+  opacity: 0;
+  width: 0;
+}
+
+.button.open .text-wrapper {
+  opacity: 1;
+  width: auto;
+}
+
+.button.glowing-text {
+  height: 68px;
+  margin-bottom: 40px;
+}
+
+.button.glowing-text .text-wrapper {
+  font-weight: 600;
+  text-shadow: 0 0 10px #00ccff, 0 0 20px #3c4446, 0 0 30px #28a494, 0 0 40px #28a494, 0 0 50px #28a494;
+}
+
+.sidebar.collapsed .button {
+  padding-left: 240px; /* Move buttons to visible area when sidebar is collapsed */
+}
+
+/* Crossword component styles */
+.crossword-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 1rem;
+}
+
+/* Override for the imported crossword component to force vertical layout */
+.crossword-container > div {
+  width: 100% !important;
+}
+
+/* Target the grid and clues container to change from row to column */
+.crossword-container > div > div {
+  flex-direction: column !important;
+}
+
+/* Ensure grid is full width */
+.crossword-container .grid {
+  width: 100% !important;
+  margin-bottom: 2rem; /* Add space between grid and clues */
+}
+
+/* Ensure clues are full width */
+.crossword-container .clues {
+  width: 100% !important;
+  margin-top: 1rem;
+}
+
+/* Make the clue categories display side by side again */
+.crossword-container .clues-container {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  padding-top: 1rem;
+}
+
+/* Adjust clue category width */
+.crossword-container .clue-direction {
+  width: 48% !important;
+}
+
+/* Crossword customization section spacing */
+.crossword-customization {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(16, 33, 40, 0.5);
+} 

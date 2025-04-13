@@ -1,13 +1,12 @@
 import React from 'react';
-import './guide.css'
+import '../styles/index.css';
 
 const Step = ({ title, content, index }: any) => (
-
-    <div className="stepContainer">
-        <div className="stepNumber">{index}</div>
-        <div className="stepContent">
-            <div className="stepHeader">{title}</div>
-            <div className="stepText">
+    <div className="step-container animated-gradient">
+        <div className="step-number">{index}</div>
+        <div className="step-content">
+            <div className="step-header">{title}</div>
+            <div className="step-text">
                 {content}
             </div>
         </div>
@@ -24,18 +23,18 @@ const guide = () => {
     ];
 
     return (
-        <div className='guideContainer'>
-            <div className="titleContainer">
-                <h1 className="animatedTitle">How to use 🔮</h1>
+        <div className="page-container fade-in">
+            <div className="title-container">
+                <h1 className="animated-title typewriter">How to use 🔮</h1>
             </div>
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent:'flex-start'}}>
-            {
-                steps.map((step, index) => (
-                    <Step key={index} title={step.title} content={step.content} index={index} />
-                ))
-            }
+            <div className="flex flex-col justify-start">
+                {
+                    steps.map((step, index) => (
+                        <Step key={index} title={step.title} content={step.content} index={index} />
+                    ))
+                }
+            </div>
         </div>
-        </div >
     );
 };
 

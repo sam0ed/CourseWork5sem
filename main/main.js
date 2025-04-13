@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path')
+const path = require('path');
 const url = require('url');
 const { setupCrosswordCommunication } = require('./crosswordConfig.js');
 // if (require('electron-squirrel-startup')) app.quit();
